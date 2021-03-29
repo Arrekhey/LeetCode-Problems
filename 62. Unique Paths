@@ -1,0 +1,24 @@
+//Intuition
+DFS Traversal of matrix and Counting the number of ways we are going to reach bottom right cell 
+But this solution is TLE
+
+
+var uniquePaths = function(m, n) {
+    let vertexMap = new Map()
+    let uniquePaths = 0 
+    function DFS(rowIndex,columnIndex){
+        if(rowIndex===m-1 && columnIndex===n-1){
+            uniquePaths++
+        }
+        if(rowIndex+1<m && columnIndex>=0){
+            DFS(rowIndex+1,columnIndex)
+        }
+        if(rowIndex>=0 && columnIndex+1<n){
+            DFS(rowIndex,columnIndex+1)
+        }
+    }
+    DFS(0,0)
+    return uniquePaths
+};
+
+
