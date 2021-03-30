@@ -1,0 +1,50 @@
+//Intuition
+
+Start traversing from bottom to the top . make a count of number of cherries picked when you reach the bottom right cell start traversing to top left .
+
+Time Complexity:O(n*n)
+
+TLE Solution :
+
+var cherryPickup = function(grid) {
+    let maxCount =0
+   function upTraversal(row1Index,column1Index,reCount){
+       if(grid[row1Index][column1Index]===1){
+           reCount = reCount+1
+           var temp1 = grid[row1Index][column1Index]
+           grid[row1Index][column1Index] =0
+       }
+       if(row1Index===0 && column1Index===0){
+           if(reCount>maxCount){
+               maxCount = reCount
+           }
+           return
+       }
+       if(row1Index-1>=0 && column1Index>=0 && grid[row1Index-1][column1Index]!=-1){
+           upTraversal(row1Index-1,column1Index,reCount)
+       }
+       if(row1Index>=0 && column1Index-1>=0 && grid[row1Index][column1Index-1]!=-1){
+           upTraversal(row1Index,column1Index-1,reCount)
+       }
+       grid[row1Index][column1Index] = temp1
+   }
+    function bottomTraversal(rowIndex,columnIndex,count){
+        if(grid[rowIndex][columnIndex]===1){
+        count = count+1
+        var temp = grid[rowIndex][columnIndex]
+        grid[rowIndex][columnIndex]=0 
+          }
+      if(rowIndex===grid.length-1 && columnIndex === grid[0].length-1){
+        upTraversal(rowIndex,columnIndex,count)
+      }    
+       if(rowIndex+1<grid.length && columnIndex>=0 && grid[rowIndex+1][columnIndex]!=-1){
+           bottomTraversal(rowIndex+1,columnIndex,count)
+       }
+        if(rowIndex>=0 && columnIndex+1<grid[0].length && grid[rowIndex][columnIndex+1]!=-1)       {
+            bottomTraversal(rowIndex,columnIndex+1,count)
+        }
+        grid[rowIndex][columnIndex] = temp
+   }
+    bottomTraversal(0,0,0)
+    return maxCount
+};
