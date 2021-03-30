@@ -1,0 +1,30 @@
+//Intuition
+we are going to traverse the entire tree and store each node in Map . so we encounter the same node again while traversing we can push that node to another map.
+
+Space Complexity:O(n)
+Time Complexity:O(n)
+
+
+var findDuplicateSubtrees = function(root) {
+    let treeMap = new Map()
+    let resultMap = new Map()
+    function traversal(root1){
+        if(!root1){
+            return 
+        }
+        if(myMap.has(JSON.stringify(root1))){
+            resultMap.set(JSON.stringify(root1),root1)
+        }
+        else {
+             myMap.set(JSON.stringify(root1),1)
+        }
+        if(root1.left){
+            traversal(root1.left)
+        }
+        if(root1.right){
+            traversal(root1.right)
+        }
+    }
+    traversal(root)
+    return [...resultMap.values()]
+};
