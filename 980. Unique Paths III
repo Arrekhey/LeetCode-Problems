@@ -2,39 +2,68 @@
  * @param {number[][]} grid
  * @return {number}
  */
+ 
+ // Intuitive Solution 
+ 
+ // So were are going to traversal the entire grid using the DFS Approach and when ever we are encountering a zero in grid we increment the count . When we are at value 2 in grid and count of 
+ // zeroes we traversed is equal to number of zeroes in the grid we can say that it is the path we touched every non-obstacle once and reached the destination 
+ 
 var uniquePathsIII = function(grid) {
-    let maxPaths = 0 
-    function DFS(rowIndex, columnIndex){
+    let maxPaths = 0
+    let startrow = 0 
+    let startcolumn = 0 
+    let zeroes = 0 
+    function DFS(rowIndex, columnIndex,count){
+    if(grid[rowIndex][columnIndex]===0){
+    count = count+1
+    var temp = grid[rowIndex][columnIndex]
+    grid[rowIndex][columnIndex] = -1
+    }
     if(grid[rowIndex][columnIndex]===2){
-        maxPaths++
+        if(count===zeroes){
+            maxPaths++
+        }
         return 
     }   
-    let temp = grid[rowIndex][columnIndex]
-    grid[rowIndex][columnIndex] = "x"
-    if(rowIndex+1<grid.length && columnIndex>=0 && grid[rowIndex+1][columnIndex]!=-1 && grid[rowIndex+1][columnIndex]!="x")
+    if(rowIndex+1<grid.length && columnIndex>=0 && grid[rowIndex+1][columnIndex]!=-1 && grid[rowIndex+1][columnIndex]!=1)
     {
-     DFS(rowIndex+1,columnIndex)
+     DFS(rowIndex+1,columnIndex,count)
     }
-        if(rowIndex>=0 && columnIndex+1<grid[0].length && grid[rowIndex][columnIndex+1]!=-1 && grid[rowIndex][columnIndex+1]!="x")
+    if(rowIndex>=0 && columnIndex+1<grid[0].length && grid[rowIndex][columnIndex+1]!=-1 && grid[rowIndex][columnIndex+1]!=1)
     {
-     DFS(rowIndex,columnIndex+1)
+     DFS(rowIndex,columnIndex+1,count)
     }
-        if(rowIndex-1>=0 && columnIndex>=0 && grid[rowIndex-1][columnIndex]!=-1 && grid[rowIndex-1][columnIndex]!="x")
+        if(rowIndex-1>=0 && columnIndex>=0 && grid[rowIndex-1][columnIndex]!=-1 && grid[rowIndex-1][columnIndex]!=1)
     {
-     DFS(rowIndex-1,columnIndex)
+     DFS(rowIndex-1,columnIndex,count)
     }
-        if(rowIndex>=0 && columnIndex-1>=0 && grid[rowIndex][columnIndex-1]!=-1 && grid[rowIndex][columnIndex-1]!="x")
+        if(rowIndex>=0 && columnIndex-1>=0 && grid[rowIndex][columnIndex-1]!=-1 && grid[rowIndex][columnIndex-1]!=1)
     {
-     DFS(rowIndex,columnIndex-1)
+     DFS(rowIndex,columnIndex-1,count)
     }
-  // grid[rowIndex][columnIndex] = temp
+   grid[rowIndex][columnIndex] = temp
     }
+    
+    
+    //Here we are Looping through the grid to find the start co-ordinates . at the same time here we are counting number of zeroes of the grid 
+    // Time Complexity : O(n*m)
+    //Space Complexity: O(1)
+    
     for (let i=0;i<grid.length;i++){
         for (let j=0;j<grid[0].length;j++){
             if(grid[i][j]===1){
-                DFS(i,j)
+                startrow = i
+                startcolumn = j
+            }
+            if(grid[i][j] ===0){
+                zeroes++
             }
         }
     }
+    
+    //Executing DFS Traversal Function 
+    DFS(startrow,startcolumn,0)
+    
+    
     return maxPaths
 };
