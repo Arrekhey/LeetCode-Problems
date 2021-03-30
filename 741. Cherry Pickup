@@ -2,7 +2,7 @@
 
 Start traversing from bottom to the top . make a count of number of cherries picked when you reach the bottom right cell start traversing to top left .
 
-Time Complexity:O(n*n)
+Time Complexity:O(n^4)
 
 TLE Solution :
 
