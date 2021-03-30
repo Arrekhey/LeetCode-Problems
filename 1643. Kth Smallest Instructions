@@ -1,0 +1,33 @@
+//Intuition 
+//But the Below solution failed from heap out of memory exception 
+
+// We are creatinf a 2_D array with the given destination values . Then we will start traversing the 2-D Array while appending the H/V to the str . Once we encounter the destination 
+// Index we are going to push the str to array and we will keep traversing . Later we will sort the Array and return the k-1 value as array is 0 Indexed.
+
+
+
+//Solution 
+
+var kthSmallestPath = function(destination, k) {
+    const arr = new Array(destination[0]).fill(null).map(()=>new Array(destination[1]))
+    let resultArray = []
+    function traversal(rowIndex,columnIndex,str){
+        if(rowIndex===destination[0] && columnIndex=== destination[1]){
+            resultArray.push(str)
+            return 
+        }
+        if(rowIndex+1<=arr.length && columnIndex>=0){
+            str+= "V"
+            traversal(rowIndex+1,columnIndex,str)
+            str = str.substring(0,str.length-1)
+        }
+        if(rowIndex>=0 && columnIndex+1<=arr[0].length){
+            str+= "H"
+            traversal(rowIndex,columnIndex+1,str)
+            str = str.substring(0,str.length-1)
+        }
+    }
+    traversal(0,0,"")
+    resultArray.sort()
+    return resultArray[k-1]
+};
